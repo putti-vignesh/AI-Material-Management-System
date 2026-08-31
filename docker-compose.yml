@@ -1,0 +1,47 @@
+services:
+  postgres_db:
+    image: postgres:15-alpine
+    container_name: ai_material_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+      POSTGRES_DB: ai_material_management
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ai_material_backend
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      DB_HOST: postgres_db
+      DB_PORT: 5432
+      DB_NAME: ai_material_management
+      DB_USER: postgres
+      DB_PASSWORD: postgrespassword
+      SECRET_KEY: super-secret-ai-material-key
+      ALGORITHM: HS256
+      ACCESS_TOKEN_EXPIRE_MINUTES: 120
+    depends_on:
+      - postgres_db
+
+  # frontend:
+  #   image: nginx:alpine
+  #   container_name: ai_material_frontend
+  #   restart: always
+  #   ports:
+  #     - "5500:80"
+  #   volumes:
+  #     - ./frontend:/usr/share/nginx/html:ro
+  #   depends_on:
+  #     - backend
+
+volumes:
+  postgres_data:

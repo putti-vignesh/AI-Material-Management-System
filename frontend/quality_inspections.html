@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quality Inspections - AI Material Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+        <div style="text-align: center; margin-bottom: 1.5rem;">
+            <i class="fas fa-cube" style="font-size: 2rem; color: #3b82f6; margin-bottom: 0.5rem; display: block;"></i>
+            <h4 style="margin-bottom: 0; color: white;">AI Materials</h4>
+        </div>
+        <ul class="nav flex-column">
+            <li class="nav-item"><a class="nav-link" href="dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" href="materials.html"><i class="fas fa-boxes"></i> Materials</a></li>
+            <li class="nav-item"><a class="nav-link" href="suppliers.html"><i class="fas fa-truck"></i> Suppliers</a></li>
+            <li class="nav-item"><a class="nav-link" href="warehouse.html"><i class="fas fa-warehouse"></i> Warehouses</a></li>
+            <li class="nav-item"><a class="nav-link" href="purchase_requests.html"><i class="fas fa-file-invoice"></i> Purchase Requests</a></li>
+            <li class="nav-item"><a class="nav-link" href="purchase_orders.html"><i class="fas fa-file-contract"></i> Purchase Orders</a></li>
+            <li class="nav-item"><a class="nav-link" href="stock_transfers.html"><i class="fas fa-exchange-alt"></i> Stock Transfers</a></li>
+            <li class="nav-item"><a class="nav-link" href="scrap_management.html"><i class="fas fa-trash-alt"></i> Scrap & Wastage</a></li>
+            <li class="nav-item"><a class="nav-link" href="material_returns.html"><i class="fas fa-undo"></i> Material Returns</a></li>
+            <li class="nav-item"><a class="nav-link" href="ai_intelligence.html"><i class="fas fa-brain"></i> AI Intelligence Suite</a></li>
+            <li class="nav-item"><a class="nav-link" href="inventory.html"><i class="fas fa-list"></i> Inventory</a></li>
+            <li class="nav-item"><a class="nav-link active" href="quality_inspections.html"><i class="fas fa-check-circle"></i> Quality Inspections</a></li>
+            <li class="nav-item"><a class="nav-link" href="goods_receiving.html"><i class="fas fa-dolly"></i> Goods Receiving</a></li>
+            <li class="nav-item"><a class="nav-link" href="reports.html"><i class="fas fa-chart-bar"></i> Reports</a></li>
+        </ul>
+        <hr style="border-color: rgba(255, 255, 255, 0.1); margin: 1.5rem 0;" />
+        <button class="btn btn-outline-danger w-100" id="logoutBtn" style="color: #ef4444; border-color: #ef4444;">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container-fluid">
+            <!-- Header -->
+            <div class="row mb-4">
+                <div class="col-md-8">
+                    <h2 class="page-title"><i class="fas fa-check-circle"></i> Quality Inspections</h2>
+                    <p class="text-muted">Manage product quality inspections and batch approvals</p>
+                </div>
+                <div class="col-md-4 text-end">
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addInspectionModal">
+                        <i class="fas fa-plus"></i> Add Inspection
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: rgba(37, 99, 235, 0.1);">
+                            <i class="fas fa-list"></i>
+                        </div>
+                        <div class="stat-content">
+                            <p class="stat-label">Total Inspections</p>
+                            <h4 id="totalInspections">0</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: rgba(16, 185, 129, 0.1);">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="stat-content">
+                            <p class="stat-label">Approved</p>
+                            <h4 id="approvedCount">0</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: rgba(245, 158, 11, 0.1);">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-content">
+                            <p class="stat-label">Pending</p>
+                            <h4 id="pendingCount">0</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: rgba(239, 68, 68, 0.1);">
+                            <i class="fas fa-times"></i>
+                        </div>
+                        <div class="stat-content">
+                            <p class="stat-label">Rejected</p>
+                            <h4 id="rejectedCount">0</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inspections Table -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-table"></i> Inspection Records</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover" id="inspectionsTable">
+                            <thead>
+                                <tr>
+                                    <th>GRN Number</th>
+                                    <th>Material Name</th>
+                                    <th>Batch Number</th>
+                                    <th>Ordered Qty</th>
+                                    <th>Received Qty</th>
+                                    <th>Accepted</th>
+                                    <th>Rejected</th>
+                                    <th>Status</th>
+                                    <th>Inspector</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="noData" class="alert alert-info">
+                        <i class="fas fa-info-circle"></i> No inspections found
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add/Edit Inspection Modal -->
+    <div class="modal fade" id="addInspectionModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-check-circle"></i> <span id="modalTitle">Add Quality Inspection</span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="inspectionForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="grnNumber" class="form-label">GRN Number *</label>
+                                <input type="text" class="form-control" id="grnNumber" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="purchaseRequestId" class="form-label">Purchase Request ID *</label>
+                                <input type="text" class="form-control" id="purchaseRequestId" required>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="materialName" class="form-label">Material Name *</label>
+                                <input type="text" class="form-control" id="materialName" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="batchNumber" class="form-label">Batch Number</label>
+                                <input type="text" class="form-control" id="batchNumber">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="orderedQuantity" class="form-label">Ordered Quantity *</label>
+                                <input type="number" class="form-control" id="orderedQuantity" step="0.01" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="receivedQuantity" class="form-label">Received Quantity *</label>
+                                <input type="number" class="form-control" id="receivedQuantity" step="0.01" required>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="acceptedQuantity" class="form-label">Accepted Quantity *</label>
+                                <input type="number" class="form-control" id="acceptedQuantity" step="0.01" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="rejectedQuantity" class="form-label">Rejected Quantity *</label>
+                                <input type="number" class="form-control" id="rejectedQuantity" step="0.01" required>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="inspectorName" class="form-label">Inspector Name</label>
+                                <input type="text" class="form-control" id="inspectorName">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="qualityStatus" class="form-label">Quality Status *</label>
+                                <select class="form-select" id="qualityStatus" required>
+                                    <option value="Pending">Pending</option>
+                                    <option value="Approved">Approved</option>
+                                    <option value="Rejected">Rejected</option>
+                                    <option value="Partial">Partial</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="warehouseLocation" class="form-label">Warehouse Location</label>
+                            <input type="text" class="form-control" id="warehouseLocation">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="inspectionRemarks" class="form-label">Inspection Remarks</label>
+                            <textarea class="form-control" id="inspectionRemarks" rows="3"></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="defectsFound" class="form-label">Defects Found</label>
+                            <textarea class="form-control" id="defectsFound" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveInspectionBtn">Save Inspection</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/quality_inspections.js"></script>
+</body>
+</html>

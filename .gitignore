@@ -1,0 +1,13 @@
+@"
+.venv/
+__pycache__/
+*.py[cod]
+.env
+.env.*
+!.env.example
+.vscode/
+.idea/
+*.log
+"@ | Set-Content .gitignore
+*.db
+
