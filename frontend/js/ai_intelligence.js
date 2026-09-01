@@ -96,7 +96,7 @@ document.getElementById("btnScanOcr").addEventListener("click", async () => {
             formData.append("file", blob, "invoice_sample.txt");
             try {
                 const token = localStorage.getItem("token");
-                const res = await fetch("http://127.0.0.1:8000/api/ai/ocr-invoice", {
+                const res = await fetch("https://ai-material-management-system.onrender.com/api/ai/ocr-invoice", {
                     method: "POST",
                     headers: { "Authorization": `Bearer ${token}` },
                     body: formData
